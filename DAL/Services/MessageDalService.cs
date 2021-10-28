@@ -44,6 +44,7 @@ namespace DAL.Services
             }
         }
 
+
         public IEnumerable<MessageDal> GetMessageBetweenToUsers(int userId1, int userId2)
         {
             using (HttpClient client = new HttpClient())

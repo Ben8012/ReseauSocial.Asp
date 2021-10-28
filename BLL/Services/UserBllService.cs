@@ -19,9 +19,6 @@ namespace BLL.Services
             _userDalService = userDalService;
         }
 
-
-
-
         public void AskActivateStatus(int ChangedUserId)
         {
             _userDalService.AskActivateStatus(ChangedUserId);

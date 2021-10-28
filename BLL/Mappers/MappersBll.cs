@@ -52,7 +52,7 @@ namespace BLL.Mappers
         #endregion
 
 
-        /* internal static ArticleDal ArticleBllToArticleDal(this ArticleBll entity)
+         internal static ArticleDal ArticleBllToArticleDal(this ArticleBll entity)
          {
              return new ArticleDal()
              {
@@ -62,6 +62,7 @@ namespace BLL.Mappers
                  UserId = entity.UserId,
                  CommentOk = entity.CommentOk,
                  OnLigne = entity.OnLigne,
+                 Date = entity.Date
              };
          }
 
@@ -77,7 +78,38 @@ namespace BLL.Mappers
                  UserId = entity.UserId,
                  CommentOk = entity.CommentOk,
                  OnLigne = entity.OnLigne,
+                 Date = entity.Date
              };
-         }*/
+         }
+
+        #region Message
+        internal static MessageDal MessageBllToMessageDal(this MessageBll entity)
+        {
+            return new MessageDal()
+            {
+                Id = entity.Id,
+                Content = entity.Content,
+                UserSend = entity.UserSend,
+                UserGet = entity.UserGet,
+                SendDate = entity.SendDate,
+                RecieveDate = entity.RecieveDate,
+            };
+        }
+
+
+
+        internal static MessageBll MessageDalToMessageBll(this MessageDal entity)
+        {
+            return new MessageBll()
+            {
+                Id = entity.Id,
+                Content = entity.Content,
+                UserSend = entity.UserSend,
+                UserGet = entity.UserGet,
+                SendDate = entity.SendDate,
+                RecieveDate = entity.RecieveDate,
+            };
+        }
+        #endregion
     }
 }

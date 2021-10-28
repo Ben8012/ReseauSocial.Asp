@@ -48,9 +48,9 @@ namespace ReseauSocial.Asp.Mappers
 
 
 
-        /* internal static ArticleDal ArticleBllToArticleDal(this ArticleBll entity)
+         internal static ArticleAsp ArticleBllToArticleAsp(this ArticleBll entity)
          {
-             return new ArticleDal()
+             return new ArticleAsp()
              {
                  Id = entity.Id,
                  Title = entity.Title,
@@ -58,12 +58,13 @@ namespace ReseauSocial.Asp.Mappers
                  UserId = entity.UserId,
                  CommentOk = entity.CommentOk,
                  OnLigne = entity.OnLigne,
+                 Date = entity.Date
              };
          }
 
 
 
-         internal static ArticleBll ArticleDalToArticleBll(this ArticleDal entity)
+         internal static ArticleBll ArticleAspToArticleBll(this ArticleAsp entity)
          {
              return new ArticleBll()
              {
@@ -73,7 +74,10 @@ namespace ReseauSocial.Asp.Mappers
                  UserId = entity.UserId,
                  CommentOk = entity.CommentOk,
                  OnLigne = entity.OnLigne,
+                 Date = entity.Date
              };
-         }*/
+         }
+
+
     }
 }

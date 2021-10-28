@@ -1,25 +1,24 @@
-﻿using DAL.Models;
+﻿using BLL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Interfaces
+namespace BLL.Interfaces
 {
-    public interface IArticleDal
+    public interface IArticleBll
     {
         void BlockArticle(int articleId, int AdminId, string message);
         void CommentArticle(int articleId, int userId, string message);
         void Delete(int id);
-        void Insert(ArticleDal article);
+        void Insert(ArticleBll article);
         void SignalArticle(int articleId, int userId);
-        void Update(int id, ArticleDal article);
+        void Update(int id, ArticleBll article);
+        IEnumerable<ArticleBll> GetAllArticle();
 
-        IEnumerable<ArticleDal> GetAllArticle();
+        IEnumerable<ArticleBll> GetArticleByUserId(int userId);
 
-        IEnumerable<ArticleDal> GetArticleByUserId(int userId);
-
-        ArticleDal GetArticleById(int articleId);
+        ArticleBll GetArticleById(int articleId);
     }
 }

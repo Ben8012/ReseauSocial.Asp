@@ -46,6 +46,18 @@ namespace ReseauSocial.Asp
             services.AddScoped<IUserDalService, UserDalService>();
             services.AddScoped<IUserBllService, UserBllService>();
 
+            //Injection des services message
+            services.AddScoped<IMessageDal, MessageDalService>();
+            services.AddScoped<IMessageBll, MessageBllService>();
+
+            //Injection des services article
+            services.AddScoped<IArticleDal, ArticleDalService>();
+            services.AddScoped<IArticleBll, ArticleBllService>();
+
+            //Injection des services comenentaire
+            services.AddScoped<ICommentDal, CommentDalService>();
+            services.AddScoped<ICommentBll, CommentBllService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Models
+namespace BLL.Models
 {
-    public class ArticleDal
+    public class ArticleBll
     {
         public int Id { get; set; }
         public string Title { get; set; }

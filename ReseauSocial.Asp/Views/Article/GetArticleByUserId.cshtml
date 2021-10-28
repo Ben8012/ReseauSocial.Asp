@@ -1,0 +1,60 @@
+﻿@model IEnumerable<ReseauSocial.Asp.Models.ArticleAsp>
+
+@{
+    ViewData["Title"] = "GetArticleByUserId";
+}
+
+<h1>Article par utilisateur</h1>
+
+<p>
+    <a asp-action="Insert" asp-controller="Article">Creer un nouvel article</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Content)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CommentOk)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OnLigne)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Content)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CommentOk)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OnLigne)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                <a asp-controller="Article" asp-action="GetArticleById" asp-route-id="@item.Id" class="btn btn-success">Details</a>
+                <a asp-controller="Article" asp-action="SignalArticle" asp-route-id="@item.Id" class="btn btn-danger">Signaler</a>    
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
