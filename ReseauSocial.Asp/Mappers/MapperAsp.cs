@@ -37,6 +37,8 @@ namespace ReseauSocial.Asp.Mappers
             };
         }
 
+  
+
         internal static UserBll UpdateUserToUserBll(this UpdateUser entity)
         {
             return new UserBll()
@@ -78,6 +80,18 @@ namespace ReseauSocial.Asp.Mappers
              };
          }
 
+        internal static MessageAsp MessageBllToMessageAsp(this MessageBll entity)
+        {
+            return new MessageAsp()
+            {
+                Id = entity.Id,
+                Content = entity.Content,
+                UserGet = entity.UserGet,
+                UserSend = entity.UserSend,
+                SendDate = entity.SendDate,
+                RecieveDate = entity.RecieveDate
+            };
+        }
 
     }
 }

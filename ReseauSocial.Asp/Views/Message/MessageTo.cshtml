@@ -1,0 +1,31 @@
+﻿
+@model BLL.Models.UserBll
+@inject ReseauSocial.Asp.Sessions.ISessionHelpers sessionManager
+
+<div class="container">
+    <div>
+        <div>
+            <form>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <input name="message" type="text" class="form-control" id="message" placeholder="Votre message">
+                </div>
+                <button id="submitButton" type="submit" class="btn btn-primary">Envoyer</button>
+            </form>
+        </div>
+        <div class="m-2 row">
+            <h3 class="col-6">@Model.LastName @Model.FirstName</h3>
+            <a asp-controller="Article" asp-action="GetArticleByUserId" asp-route-id="@Model.Id" class="col-6 btn btn-success">Voir ses articles</a>
+        </div>
+        <div class="m-2">
+            <ul id="listMessage" class="list-group">
+            </ul>
+        </div>      
+    </div>
+</div>
+<script>
+    var curentUserId = parseInt(@sessionManager.CurentUser.Id.ToString());
+    var otherUserId =  parseInt(@Model.Id.ToString());
+</script>
+<script src="~/js/dist/browser/signalr.js"></script>
+<script src="~/js/MessageHub.js"></script>

@@ -12,7 +12,7 @@ namespace DAL.Services
 {
     public class MessageDalService : AbstracService, IMessageDal
     {
-        public void CreateMessage(MessageDal entity)
+        public int CreateMessage(MessageDal entity)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -23,7 +23,11 @@ namespace DAL.Services
 
                 using (HttpResponseMessage message = client.PostAsync("Message/CreateMessage", content).Result)
                 {
-                    message.EnsureSuccessStatusCode();
+                    if (!message.IsSuccessStatusCode)
+                        throw new HttpRequestException();
+
+                    string json = message.Content.ReadAsStringAsync().Result;
+                    return JsonConvert.DeserializeObject<int>(json);
                 }
             }
         }
@@ -65,14 +69,14 @@ namespace DAL.Services
             }
         }
 
-        public MessageDal GetMessageById(int MessageId)
+        public MessageDal GetMessageById(int id)
         {
             using (HttpClient client = new HttpClient())
             {
                 setBaseAdress(client);
 
 
-                using (HttpResponseMessage message = client.GetAsync("Message/GetMessageById/" + MessageId).Result)
+                using (HttpResponseMessage message = client.GetAsync("Message/GetMessageById/"+id).Result)
                 {
                     if (!message.IsSuccessStatusCode)
                         throw new HttpRequestException();
@@ -110,7 +114,7 @@ namespace DAL.Services
                 setBaseAdress(client);
 
                 string jsonBody = JsonConvert.SerializeObject(new ReciveMessage { MessageId = messageId, UserGetId = userGetId });
-                HttpContent content = new StringContent(jsonBody, Encoding.Default, "application/json");
+                HttpContent content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
 
                 using (HttpResponseMessage message = client.PostAsync("​Message/ReciveMessage", content).Result)
                 {

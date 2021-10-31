@@ -9,7 +9,7 @@ namespace DAL.Interfaces
 {
     public interface IMessageDal
     {
-        void CreateMessage(MessageDal message);
+        int CreateMessage(MessageDal message);
         void DeleteMessage(int messageId, int userSendId);
         IEnumerable<MessageDal> GetMessageBetweenToUsers(int UserId1, int UserId2);
         MessageDal GetMessageById(int MessageId);

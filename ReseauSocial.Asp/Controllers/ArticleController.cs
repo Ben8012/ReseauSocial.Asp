@@ -16,18 +16,30 @@ namespace ReseauSocial.Asp.Controllers
     {
         private readonly IArticleBll _articleBll;
         private readonly ICommentBll _commentBll;
+        private readonly IUserBllService _userBll;
         private readonly ISessionHelpers _sessionHelpers;
 
-        public ArticleController(IArticleBll articleBll, ICommentBll commentBll, ISessionHelpers sessionHelpers)
+        public ArticleController(IArticleBll articleBll, ICommentBll commentBll, ISessionHelpers sessionHelpers, IUserBllService userBll)
         {
             _articleBll = articleBll;
             _commentBll = commentBll;
             _sessionHelpers = sessionHelpers;
+            _userBll = userBll;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<ArticleAsp> listArticles = _articleBll.GetAllArticle().Select(a => a.ArticleBllToArticleAsp());
+            IEnumerable<ArticleAsp> listArticles = _articleBll.GetAllArticle()
+                .Where(a=> a.OnLigne)
+                .OrderByDescending(a => a.Date)
+                .Select(a =>
+                   {
+                       ArticleAsp article = a.ArticleBllToArticleAsp();
+                       article.UserArticle = _userBll.GetUser(a.UserId).UserBllToUserAsp();
+                       return article;
+                   });
+               
+
             return View(listArticles);
         }
 
@@ -128,6 +140,8 @@ namespace ReseauSocial.Asp.Controllers
         public IActionResult GetArticleById(int id)
         {
             ArticleAsp article = _articleBll.GetArticleById(id).ArticleBllToArticleAsp();
+            article.UserArticle = _userBll.GetUser(article.UserId).UserBllToUserAsp();
+        
             return View(article);
 
         }
@@ -135,14 +149,24 @@ namespace ReseauSocial.Asp.Controllers
         [HttpGet("GetArticleByUserId/{id}")]
         public IActionResult GetArticleByUserId(int id)
         {
-            IEnumerable<ArticleAsp> listArticles = _articleBll.GetArticleByUserId(id).Select(a => a.ArticleBllToArticleAsp());
+            IEnumerable<ArticleAsp> listArticles = _articleBll.GetArticleByUserId(id)
+                .Select(a => a.ArticleBllToArticleAsp());
+            ViewBag.User = _userBll.GetUser(id).UserBllToUserAsp();
+
             return View(listArticles);
         }
 
         [HttpGet("GetMyArticle")]
         public IActionResult GetMyArticle()
         {
-            IEnumerable<ArticleAsp> listArticles = _articleBll.GetArticleByUserId(_sessionHelpers.CurentUser.Id).Select(a => a.ArticleBllToArticleAsp());
+            IEnumerable<ArticleAsp> listArticles = _articleBll.GetArticleByUserId(_sessionHelpers.CurentUser.Id)
+                .OrderByDescending(a => a.Date)
+                .Select(a =>
+                {
+                    ArticleAsp article = a.ArticleBllToArticleAsp();
+                    article.UserArticle = _userBll.GetUser(a.UserId).UserBllToUserAsp();
+                    return article;
+                });
             return View(listArticles);
         }
     }

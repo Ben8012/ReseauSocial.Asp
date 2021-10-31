@@ -9,7 +9,7 @@ namespace BLL.Interfaces
 {
     public interface IMessageBll
     {
-        void CreateMessage(MessageBll message);
+        int CreateMessage(MessageBll message);
         void DeleteMessage(int messageId, int userSendId);
         IEnumerable<MessageBll> GetMessageBetweenToUsers(int UserId1, int UserId2);
         MessageBll GetMessageById(int MessageId);

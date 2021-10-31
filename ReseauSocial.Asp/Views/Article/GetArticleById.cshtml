@@ -7,7 +7,7 @@
 <h1>Details de l'article</h1>
 
 <div>
-    <h4>ArticleAsp</h4>
+   
     <hr />
     <dl class="row">
       
@@ -39,7 +39,7 @@
             @Html.DisplayNameFor(model => model.UserId)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserId)
+            @Model.UserArticle.LastName @Model.UserArticle.FirstName
         </dd>
     </dl>
 </div>

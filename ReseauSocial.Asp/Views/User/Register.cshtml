@@ -1,12 +1,11 @@
 ﻿@model ReseauSocial.Asp.Models.Forms.RegisterUser
 
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "S'enegister";
 }
 
-<h1>Register</h1>
+<h1>S'enegister</h1>
 
-<h4>RegisterUser</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -33,14 +32,19 @@
                 <span asp-validation-for="Passwd" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Enregistez" class="btn btn-primary" />
+                <label asp-for="ConfirmPasswd" class="control-label"></label>
+                <input asp-for="ConfirmPasswd" class="form-control" />
+                <span asp-validation-for="Passwd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Enregistez-vous" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Retour</a>
+    <a asp-controller="Home" asp-action="Index">Retour</a>
 </div>
 
 @section Scripts {

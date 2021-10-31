@@ -13,6 +13,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ReseauSocial.Asp.Models;
+using ReseauSocial.Asp.HubTools;
 
 namespace ReseauSocial.Asp
 {
@@ -39,8 +41,13 @@ namespace ReseauSocial.Asp
                 options.IdleTimeout = TimeSpan.FromHours(12);
             });
 
+            services.AddSignalR();
+
             //injection SessionHelper
             services.AddScoped<ISessionHelpers, SessionHelpers>();
+
+            //injection MessageHub
+            services.AddScoped<IMessageHub, MessageHub>();
 
             //Injection des services user
             services.AddScoped<IUserDalService, UserDalService>();
@@ -89,6 +96,7 @@ namespace ReseauSocial.Asp
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapHub<MessageHub>("/messageHub");
             });
         }
     }

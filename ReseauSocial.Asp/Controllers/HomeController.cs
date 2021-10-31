@@ -16,18 +16,30 @@ namespace ReseauSocial.Asp.Controllers
     {
         private readonly IArticleBll _articleBll;
         private readonly ISessionHelpers _sessionHelpers;
+        private readonly IUserBllService _userBll;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(IArticleBll articleBll, ISessionHelpers sessionHelpers, ILogger<HomeController> logger)
+        public HomeController(IArticleBll articleBll, ISessionHelpers sessionHelpers, ILogger<HomeController> logger, IUserBllService userBll)
         {
             _articleBll = articleBll;
             _sessionHelpers = sessionHelpers;
             _logger = logger;
+            _userBll = userBll;
+
         }
 
         public IActionResult Index()
         {
-            IEnumerable<ArticleAsp> listArticles = _articleBll.GetAllArticle().OrderByDescending(a => a.Date).Take(10).Select(a => a.ArticleBllToArticleAsp());
+            IEnumerable<ArticleAsp> listArticles = _articleBll.GetAllArticle()
+                .Where(a => a.OnLigne)
+                .OrderByDescending(a => a.Date)
+                .Take(10)
+                .Select(a =>{
+                    ArticleAsp article = a.ArticleBllToArticleAsp();
+                    article.UserArticle = _userBll.GetUser(a.UserId).UserBllToUserAsp();
+                    return article;
+                });
+              
             return View(listArticles);
         }
 

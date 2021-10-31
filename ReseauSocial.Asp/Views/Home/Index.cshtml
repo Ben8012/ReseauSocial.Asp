@@ -7,9 +7,7 @@
 
 <h1> Liste des 10 derniers articles</h1>
 
-<p>
-    <a asp-action="Insert" asp-controller="Article">Creer un nouvel article</a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
@@ -20,14 +18,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Content)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CommentOk)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OnLigne)
-            </th>
+           
             <th>
                 @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
             </th>
             <th></th>
         </tr>
@@ -35,41 +31,47 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+        <tr>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Content)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CommentOk)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OnLigne)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserId)
-                </td>
-                <td>
-                    <a asp-controller="Article" asp-action="GetArticleById" asp-route-id="@item.Id" class="btn btn-success">Details</a>
-                    @if (sessionManager.CurentUser is not null)
+            <td>
+                @item.Title
+            </td>
+            <td>
+                @item.Content
+            </td>
+           
+            <td>
+                @if (sessionManager.CurentUser is null)
+                {
+                    @item.UserArticle.FirstName @item.UserArticle.LastName
+                }
+                else
+                {
+                    <a class="btn btn-primary" asp-controller="Article" asp-action="GetArticleByUserId" asp-route-id="@item.UserId">@item.UserArticle.FirstName  @item.UserArticle.LastName</a>
+                }
+
+            </td>
+            <td>
+                @item.Date
+            </td>
+            <td>
+                <a asp-controller="Article" asp-action="GetArticleById" asp-route-id="@item.Id" class="btn btn-success">Details</a>
+                @if (sessionManager.CurentUser is not null)
+                {
+                    @if (sessionManager.CurentUser.Id == item.UserId)
                     {
-                        @if (sessionManager.CurentUser.Id == item.UserId)
-                        {
-                            <a asp-controller="Article" asp-action="Update" asp-route-id="@item.Id" class="btn btn-primary">Modifier</a>
-                            <a asp-controller="Article" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Effacer</a>
-                        }
-                        else
-                        {
-                            <a asp-controller="Article" asp-action="SignalArticle" asp-route-id="@item.Id" class="btn btn-danger">Signaler</a>
-                        }
+                        <a asp-controller="Article" asp-action="Update" asp-route-id="@item.Id" class="btn btn-primary">Modifier</a>
+                        <a asp-controller="Article" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Effacer</a>
                     }
+                    else
+                    {
+                        <a asp-controller="Article" asp-action="SignalArticle" asp-route-id="@item.Id" class="btn btn-danger">Signaler</a>
+                    }
+                }
 
 
-                </td>
-            </tr>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

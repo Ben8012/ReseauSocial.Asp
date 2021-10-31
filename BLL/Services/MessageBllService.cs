@@ -20,9 +20,9 @@ namespace BLL.Services
             _messageDal = messageDal;
         }
 
-        public void CreateMessage(MessageBll message)
+        public int CreateMessage(MessageBll message)
         {
-            _messageDal.CreateMessage(message.MessageBllToMessageDal());
+           return _messageDal.CreateMessage(message.MessageBllToMessageDal());
         }
 
         public void DeleteMessage(int messageId, int userSendId)

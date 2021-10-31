@@ -25,8 +25,12 @@ namespace ReseauSocial.Asp.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<UserAsp> listUsers = _userBllService.GetAllUsers().Where(u => u.Id != _sessionHelpers.CurentUser.Id).Select(u => u.UserBllToUserAsp());
-            return View(listUsers);
+            if(_sessionHelpers.CurentUser is not null)
+            {
+                IEnumerable<UserAsp> listUsers = _userBllService.GetAllUsers().Where(u => u.Id != _sessionHelpers.CurentUser.Id).Select(u => u.UserBllToUserAsp());
+                return View(listUsers);
+            }
+            return RedirectToAction("Index", "Home");
         }
 
 
