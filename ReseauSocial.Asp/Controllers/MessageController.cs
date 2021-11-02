@@ -33,6 +33,7 @@ namespace ReseauSocial.Asp.Controllers
             return View(listUsers);
         }
 
+
         [HttpGet("MessageTo/{id}")]
         public IActionResult MessageTo( int id)
         {     
@@ -48,3 +49,10 @@ namespace ReseauSocial.Asp.Controllers
         }
     }
 }
+
+
+
+
+
+
+

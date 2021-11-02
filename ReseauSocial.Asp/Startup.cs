@@ -49,6 +49,9 @@ namespace ReseauSocial.Asp
             //injection MessageHub
             services.AddScoped<IMessageHub, MessageHub>();
 
+            //injection CommentHub
+            services.AddScoped<ICommentHub, CommentHub>();
+
             //Injection des services user
             services.AddScoped<IUserDalService, UserDalService>();
             services.AddScoped<IUserBllService, UserBllService>();
@@ -64,6 +67,10 @@ namespace ReseauSocial.Asp
             //Injection des services comenentaire
             services.AddScoped<ICommentDal, CommentDalService>();
             services.AddScoped<ICommentBll, CommentBllService>();
+
+            //injection follower
+            services.AddScoped<IFollowerDal, FollowerDalService>();
+            services.AddScoped<IFollowerBll, FollowerBllService>();
 
         }
 
@@ -97,6 +104,7 @@ namespace ReseauSocial.Asp
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapHub<MessageHub>("/messageHub");
+                endpoints.MapHub<CommentHub>("/commentHub");
             });
         }
     }

@@ -111,5 +111,33 @@ namespace BLL.Mappers
             };
         }
         #endregion
+
+        #region Comment
+        internal static CommentBll CommentDalToCommentBll(this CommentDal entity)
+        {
+            return new CommentBll()
+            {
+                Id = entity.Id,
+                ArticleId = entity.ArticleId,
+                UserId = entity.UserId,
+                Message = entity.Message,
+                Date = entity.Date
+
+            };
+        }
+
+        internal static CommentDal CommentBllToCommentDal(this CommentBll entity)
+        {
+            return new CommentDal()
+            {
+                Id = entity.Id,
+                ArticleId = entity.ArticleId,
+                UserId = entity.UserId,
+                Message = entity.Message,
+                Date = entity.Date
+
+            };
+        }
+        #endregion
     }
 }

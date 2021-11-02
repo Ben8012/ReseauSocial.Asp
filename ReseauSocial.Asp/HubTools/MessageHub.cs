@@ -34,7 +34,16 @@ namespace ReseauSocial.Asp.HubTools
             MessageAsp message = _messageService.GetMessageById(messageId).MessageBllToMessageAsp();
             message.Sender = _userService.GetUser(message.UserSend);
             message.Reciever = _userService.GetUser(message.UserGet);
-            await Clients.All.SendAsync("ReceiveMessage", JsonConvert.SerializeObject(message));
+            /*await Clients.All.SendAsync("ReceiveMessage", JsonConvert.SerializeObject(message));*/
+
+            //envois des touts messages entre 2 utilisateurs 
+            await Clients.All.SendAsync("MessageBetweenToUsers", GetMessageBetweenToUsersJson(userSend, userGet), userSend, userGet);
+
+            //envois de la liste des contacts a l'envoyeur du message
+            await GetListContact(userSend);
+
+            //envois de la liste des contacts au receveur du message
+            await GetListContact(userGet);
         }
 
         public async Task GetMessageBetweenToUsers(int userId1, int userId2)
@@ -53,17 +62,26 @@ namespace ReseauSocial.Asp.HubTools
                 return message;
             });
 
-            await Clients.Caller.SendAsync("MessageBetweenToUsers", JsonConvert.SerializeObject(listMessages));
+            await Clients.Caller.SendAsync("MessageBetweenToUsers", JsonConvert.SerializeObject(listMessages), userId1, userId2);
             await GetListContact(userId1);
         }
 
 
-
+        public async Task GetAllUsers(int curentUserId)
+        {
+            IEnumerable<UserBll> listUsers = _userService.GetAllUsers()
+                .Where(u => u.Id != curentUserId)
+                .OrderBy(u => u.LastName);
+                
+            await Clients.Caller.SendAsync("ReceiveListUsers", JsonConvert.SerializeObject(listUsers), curentUserId);
+        }
 
         public async Task GetListContact(int curentUserId)
         {
-            IEnumerable<Contact> listContact = _userService.GetAllUsers()
-                .Where(u => u.Id != curentUserId)
+            IEnumerable<Contact> listContact = _messageService.GetAllMessagesOfUser(curentUserId)
+                .Select(m => m.UserSend != curentUserId ? m.UserSend : m.UserGet)
+                .Distinct()
+                .Select(id => _userService.GetUser(id))
                 .Select(u =>
                 {
                     return new Contact
@@ -78,9 +96,33 @@ namespace ReseauSocial.Asp.HubTools
                             .OrderByDescending(m => m.SendDate)
                             .FirstOrDefault()
                     };
-                }).OrderByDescending(c => c.CountMessageNotRead);
-            await Clients.Caller.SendAsync("ReceiveListContact", JsonConvert.SerializeObject(listContact));
+                }).OrderByDescending(c => c.CountMessageNotRead); ;
+
+            await Clients.All.SendAsync("ReceiveListContact", JsonConvert.SerializeObject(listContact),curentUserId);
         }
+
+        private string GetMessageBetweenToUsersJson(int userId1, int userId2)
+        {
+            IEnumerable<MessageBll> listMessagesBll = _messageService.GetMessageBetweenToUsers(userId1, userId2);
+            foreach (int idMessage in listMessagesBll.Where(m => m.RecieveDate is null && m.UserGet == userId1).Select(m => m.Id))
+            {
+                _messageService.ReciveMessage(idMessage, userId1);
+            }
+
+            IEnumerable<MessageAsp> listMessages = _messageService.GetMessageBetweenToUsers(userId1, userId2).Select(m =>
+            {
+                MessageAsp message = m.MessageBllToMessageAsp();
+                message.Sender = _userService.GetUser(message.UserSend);
+                message.Reciever = _userService.GetUser(message.UserGet);
+                return message;
+            });
+
+             return JsonConvert.SerializeObject(listMessages);
+            
+        }
+
+
+
     }
 }
 

@@ -51,13 +51,7 @@ namespace ReseauSocial.Asp.Controllers
             comment.Article = article;
             return View(comment);
         }
-        /*
-                [HttpPost]
-                public IActionResult CommentArticle(int articleId, Comment form)
-                {
-                    _articleDal.CommentArticle(articleId, userId, message);
-
-                }*/
+      
 
         [HttpGet("Delete/{id}")]
         public IActionResult Delete(int id)

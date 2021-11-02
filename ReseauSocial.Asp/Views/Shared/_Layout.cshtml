@@ -1,4 +1,5 @@
 ﻿@inject ReseauSocial.Asp.Sessions.ISessionHelpers sessionManager
+@inject BLL.Interfaces.IMessageBll _messageService
 
 <!DOCTYPE html>
 <html lang="en">
@@ -6,8 +7,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ReseauSocial.Asp</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
     <header>
@@ -38,16 +39,35 @@
                         else
                         {
                             <li class="mx-1 nav-item">
-                                <a class="btn btn-outline-primary" asp-area="" asp-controller="User" asp-action="Index">Liste de mes contacts</a>
+                                <div class="dropdown">
+                                    <a class="btn btn-outline-primary dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contacts</a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="btn btn-outline-primary" asp-area="" asp-controller="User" asp-action="Index">Tous le monde </a>
+                                        <a class="btn btn-outline-primary" asp-area="" asp-controller="User" asp-action="MyConctacts">Mes contacts</a>
+                                        <a class="btn btn-outline-primary" asp-area="" asp-controller="Follower" asp-action="GetAllFollowedOfOneUser">Mes suivis</a>
+                                        <a class="btn btn-outline-primary" asp-area="" asp-controller="Follower" asp-action="GetAllFollowersOfOneUser">Mes followers</a>
+
+                                    </div>
+                                </div>
                             </li>
+
                             <li class="mx-1 nav-item">
-                                <a class="btn btn-outline-primary" asp-area="" asp-controller="Message" asp-action="Index">Liste des messages</a>
+                                <div class="dropdown">
+                                    <a class="btn btn-outline-primary dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Articles</a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="btn btn-outline-primary" asp-area="" asp-controller="Article" asp-action="Index"> Tous les articles</a>
+                                        <a class="btn btn-outline-primary" asp-area="" asp-controller="Article" asp-action="GetMyArticle"> Mes articles</a>
+                                    </div>
+                                </div>
                             </li>
+
                             <li class="mx-1 nav-item">
-                                <a class="btn btn-outline-primary" asp-area="" asp-controller="Article" asp-action="Index"> Tous les articles</a>
-                            </li>
-                            <li class="mx-1 nav-item">
-                                <a class="btn btn-outline-primary" asp-area="" asp-controller="Article" asp-action="GetMyArticle"> Mes articles</a>
+                                <a class="btn btn-outline-primary" asp-area="" asp-controller="Message" asp-action="Index">
+                                    Liste des messages
+                                    <span id="NewMessageCountMenu" class="badge badge-success">
+                                        @_messageService.GetAllMessagesOfUser(sessionManager.CurentUser.Id).Count(m => m.RecieveDate is null && m.UserGet == sessionManager.CurentUser.Id)
+                                    </span>
+                                </a>
                             </li>
 
                             <li class="mx-1 nav-item">

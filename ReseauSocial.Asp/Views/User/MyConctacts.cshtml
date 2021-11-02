@@ -1,26 +1,26 @@
 ﻿@model IEnumerable<ReseauSocial.Asp.Models.UserAsp>
-@inject ReseauSocial.Asp.Sessions.ISessionHelpers sessionManager
-@inject BLL.Interfaces.IFollowerBll _followerBll
-@{
-    ViewData["Title"] = "Tous les contacts";
-}
+    @inject ReseauSocial.Asp.Sessions.ISessionHelpers sessionManager
+    @inject BLL.Interfaces.IFollowerBll _followerBll
+    @{
+    ViewData["Title"] = "Mes contacts";
+    }
 
-<h1>Tous les contacts</h1>
+    <h1>Mes contacts</h1>
 
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
         {
             <tr>
                 <td>
@@ -35,11 +35,11 @@
                     <a asp-controller="Article" asp-action="GetArticleByUserId" asp-route-id="@item.Id" class="btn btn-success">Voir les articles</a>
                     @if (_followerBll.IsFollowBy(sessionManager.CurentUser.Id, item.Id))
                     {
-                        <a asp-controller="Follower" asp-action="UnFollow" asp-route-id="@item.Id" class="btn btn-danger">Ne plus suivre</a>
+                    <a asp-controller="Follower" asp-action="UnFollow" asp-route-id="@item.Id" class="btn btn-danger">Ne plus suivre</a>
                     }
                     else
                     {
-                        <a asp-controller="Follower" asp-action="Follow" asp-route-id="@item.Id" class="btn btn-success">Suivre</a>
+                    <a asp-controller="Follower" asp-action="Follow" asp-route-id="@item.Id" class="btn btn-success">Suivre</a>
                     }
 
 
@@ -49,5 +49,6 @@
                 </td>
             </tr>
         }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+

@@ -16,18 +16,22 @@ namespace ReseauSocial.Asp.Controllers
     {
         private readonly IUserBllService _userBllService;
         private readonly ISessionHelpers _sessionHelpers;
+        private readonly IMessageBll _messageBll;
 
-        public UserController(IUserBllService userBllService, ISessionHelpers sessionHelpers)
+        public UserController(IUserBllService userBllService, ISessionHelpers sessionHelpers, IMessageBll messageBll)
         {
             _userBllService = userBllService;
             _sessionHelpers = sessionHelpers;
+            _messageBll = messageBll;
         }
 
         public IActionResult Index()
         {
             if(_sessionHelpers.CurentUser is not null)
             {
-                IEnumerable<UserAsp> listUsers = _userBllService.GetAllUsers().Where(u => u.Id != _sessionHelpers.CurentUser.Id).Select(u => u.UserBllToUserAsp());
+                IEnumerable<UserAsp> listUsers = _userBllService.GetAllUsers()
+                    .Where(u => u.Id != _sessionHelpers.CurentUser.Id)
+                    .Select(u => u.UserBllToUserAsp());
                 return View(listUsers);
             }
             return RedirectToAction("Index", "Home");
@@ -168,5 +172,18 @@ namespace ReseauSocial.Asp.Controllers
             return View(profil);
         }
 
+
+        public IActionResult MyConctacts()
+        {
+           IEnumerable<UserAsp> listMyContacts = _messageBll.GetAllMessagesOfUser(_sessionHelpers.CurentUser.Id)
+                .Select(m => m.UserSend != _sessionHelpers.CurentUser.Id ? m.UserSend : m.UserGet)
+                .Distinct()
+                .Select(id => _userBllService.GetUser(id).UserBllToUserAsp()) ;
+
+
+            return View(listMyContacts);
+        }
+
     }
 }
+
