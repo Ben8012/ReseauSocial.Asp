@@ -14,11 +14,6 @@ namespace DAL.Services
     public class UserDalService : AbstracService, IUserDalService 
     {
 
-      
-
-      
-      
-
         /*-------------------Post & Put & Delete----------------------------*/
 
         public void Register(UserDal entity)
@@ -37,11 +32,11 @@ namespace DAL.Services
             }
         }
 
-        public void Update(int id, UserDal entity)
+        public void Update(int id, UserDal entity,string token)
         {
             using (HttpClient client = new HttpClient())
             {
-                setBaseAdress(client);
+                setBaseAdresseWithToken(client, token);
 
                 string jsonBody = JsonConvert.SerializeObject(entity);
                 HttpContent content = new StringContent(jsonBody, Encoding.Default, "application/json");
@@ -54,11 +49,11 @@ namespace DAL.Services
 
         }
 
-        public void Delete(int id)
+        public void Delete(int id, string token)
         {
             using (HttpClient client = new HttpClient())
             {
-                setBaseAdress(client);
+                setBaseAdresseWithToken(client, token);
 
                 using (HttpResponseMessage message = client.DeleteAsync("User/" + id).Result)
                 {
@@ -68,11 +63,11 @@ namespace DAL.Services
         }
 
 
-        public void ReactivateStatus(int ChangedUserId)
+        public void ReactivateStatus(int ChangedUserId, string token)
         {
             using (HttpClient client = new HttpClient())
             {
-                setBaseAdress(client);
+                setBaseAdresseWithToken(client, token);
 
                 string jsonBody = JsonConvert.SerializeObject(new { ChangedUserId = ChangedUserId });
                 HttpContent content = new StringContent(jsonBody, Encoding.Default, "application/json");
@@ -84,11 +79,11 @@ namespace DAL.Services
             }
         }
 
-        public void DeactivateStatus(int ChangUserId)
+        public void DeactivateStatus(int ChangUserId, string token)
         {
             using (HttpClient client = new HttpClient())
             {
-                setBaseAdress(client);
+                setBaseAdresseWithToken(client, token);
 
                 string jsonBody = JsonConvert.SerializeObject(new { ChangUserId = ChangUserId });
                 HttpContent content = new StringContent(jsonBody, Encoding.Default, "application/json");
@@ -100,12 +95,12 @@ namespace DAL.Services
             }
         }
 
-        public void BlockedStatus(int ChangedUserId, int EditorUserId)
+        public void BlockedStatus(int ChangedUserId, int EditorUserId, string token)
         {
             using (HttpClient client = new HttpClient())
             {
-                setBaseAdress(client);
-                
+                setBaseAdresseWithToken(client, token);
+
                 string jsonBody = JsonConvert.SerializeObject(new { ChangedUserId = ChangedUserId, EditorUserId = EditorUserId });
                 HttpContent content = new StringContent(jsonBody, Encoding.Default, "application/json");
 
@@ -117,12 +112,12 @@ namespace DAL.Services
 
         }
 
-        public void DeleteStatus(int ChangedUserId, int EditorUserId)
+        public void DeleteStatus(int ChangedUserId, int EditorUserId, string token)
         {
 
             using (HttpClient client = new HttpClient())
             {
-                setBaseAdress(client);
+                setBaseAdresseWithToken(client, token);
 
                 string jsonBody = JsonConvert.SerializeObject(new { ChangedUserId = ChangedUserId, EditorUserId = EditorUserId });
                 HttpContent content = new StringContent(jsonBody, Encoding.Default, "application/json");
@@ -134,11 +129,11 @@ namespace DAL.Services
             }
         }
 
-        public void AskActivateStatus(int ChangedUserId)
+        public void AskActivateStatus(int ChangedUserId, string token)
         {
             using (HttpClient client = new HttpClient())
             {
-                setBaseAdress(client);
+                setBaseAdresseWithToken(client, token);
 
                 string jsonBody = JsonConvert.SerializeObject(new { ChangedUserId = ChangedUserId });
                 HttpContent content = new StringContent(jsonBody, Encoding.Default, "application/json");
@@ -150,11 +145,11 @@ namespace DAL.Services
             }
         }
 
-        public void AskDeleteStatus(int ChangedUserId)
+        public void AskDeleteStatus(int ChangedUserId, string token)
         {
             using (HttpClient client = new HttpClient())
             {
-                setBaseAdress(client);
+                setBaseAdresseWithToken(client, token);
 
                 string jsonBody = JsonConvert.SerializeObject(new { ChangedUserId = ChangedUserId });
                 HttpContent content = new StringContent(jsonBody, Encoding.Default, "application/json");
@@ -208,11 +203,11 @@ namespace DAL.Services
         }
 
         
-        public StatusDal GetStatus(int userId)
+        public StatusDal GetStatus(int userId, string token)
         {
             using (HttpClient client = new HttpClient())
             {
-                setBaseAdress(client);
+                setBaseAdresseWithToken(client, token);
 
                 using (HttpResponseMessage message = client.GetAsync("User/GetStatus/" + userId).Result)
                 {
@@ -228,7 +223,7 @@ namespace DAL.Services
         #region GetUser
         /*-------------------GetUser----------------------------*/
 
-        public UserDal GetUser(int userId)
+        public UserDal GetUser(int userId, string token)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -245,11 +240,11 @@ namespace DAL.Services
             }
         }
 
-        public IEnumerable<UserDal> GetAllUsers()
+        public IEnumerable<UserDal> GetAllUsers( string token)
         {
             using (HttpClient client = new HttpClient())
             {
-                setBaseAdress(client);
+                setBaseAdresseWithToken( client, token);
 
                 using (HttpResponseMessage message = client.GetAsync("User/GetAllUsers/").Result)
                 {

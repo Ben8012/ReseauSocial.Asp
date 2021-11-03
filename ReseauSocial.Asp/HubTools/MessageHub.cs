@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ReseauSocial.Asp.Mappers;
 using ReseauSocial.Asp.Models;
+using ReseauSocial.Asp.Sessions;
 
 namespace ReseauSocial.Asp.HubTools
 {
@@ -15,11 +16,13 @@ namespace ReseauSocial.Asp.HubTools
     {
         private readonly IMessageBll _messageService;
         private readonly IUserBllService _userService;
+        private readonly ISessionHelpers _sessionHelpers;
 
-        public MessageHub(IMessageBll messageService, IUserBllService userService) : base()
+        public MessageHub(IMessageBll messageService, IUserBllService userService, ISessionHelpers sessionHelpers) : base()
         {
             _messageService = messageService;
             _userService = userService;
+            _sessionHelpers = sessionHelpers;
         }
 
         public async Task SendMessage(int userSend, int userGet, string content)
@@ -32,8 +35,8 @@ namespace ReseauSocial.Asp.HubTools
             });
 
             MessageAsp message = _messageService.GetMessageById(messageId).MessageBllToMessageAsp();
-            message.Sender = _userService.GetUser(message.UserSend);
-            message.Reciever = _userService.GetUser(message.UserGet);
+            message.Sender = _userService.GetUser(message.UserSend, _sessionHelpers.CurentUser.Token);
+            message.Reciever = _userService.GetUser(message.UserGet, _sessionHelpers.CurentUser.Token);
             /*await Clients.All.SendAsync("ReceiveMessage", JsonConvert.SerializeObject(message));*/
 
             //envois des touts messages entre 2 utilisateurs 
@@ -57,8 +60,8 @@ namespace ReseauSocial.Asp.HubTools
             IEnumerable <MessageAsp> listMessages = _messageService.GetMessageBetweenToUsers(userId1, userId2).Select(m =>
             {
                 MessageAsp message = m.MessageBllToMessageAsp();
-                message.Sender = _userService.GetUser(message.UserSend);
-                message.Reciever = _userService.GetUser(message.UserGet);
+                message.Sender = _userService.GetUser(message.UserSend, _sessionHelpers.CurentUser.Token);
+                message.Reciever = _userService.GetUser(message.UserGet, _sessionHelpers.CurentUser.Token);
                 return message;
             });
 
@@ -69,7 +72,7 @@ namespace ReseauSocial.Asp.HubTools
 
         public async Task GetAllUsers(int curentUserId)
         {
-            IEnumerable<UserBll> listUsers = _userService.GetAllUsers()
+            IEnumerable<UserBll> listUsers = _userService.GetAllUsers(_sessionHelpers.CurentUser.Token)
                 .Where(u => u.Id != curentUserId)
                 .OrderBy(u => u.LastName);
                 
@@ -81,7 +84,7 @@ namespace ReseauSocial.Asp.HubTools
             IEnumerable<Contact> listContact = _messageService.GetAllMessagesOfUser(curentUserId)
                 .Select(m => m.UserSend != curentUserId ? m.UserSend : m.UserGet)
                 .Distinct()
-                .Select(id => _userService.GetUser(id))
+                .Select(id => _userService.GetUser(id, _sessionHelpers.CurentUser.Token))
                 .Select(u =>
                 {
                     return new Contact
@@ -112,8 +115,8 @@ namespace ReseauSocial.Asp.HubTools
             IEnumerable<MessageAsp> listMessages = _messageService.GetMessageBetweenToUsers(userId1, userId2).Select(m =>
             {
                 MessageAsp message = m.MessageBllToMessageAsp();
-                message.Sender = _userService.GetUser(message.UserSend);
-                message.Reciever = _userService.GetUser(message.UserGet);
+                message.Sender = _userService.GetUser(message.UserSend, _sessionHelpers.CurentUser.Token);
+                message.Reciever = _userService.GetUser(message.UserGet, _sessionHelpers.CurentUser.Token);
                 return message;
             });
 

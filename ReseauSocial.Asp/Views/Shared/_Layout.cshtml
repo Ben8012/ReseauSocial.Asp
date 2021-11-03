@@ -12,7 +12,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #e3f2fd;">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #e3f2fd; z-index:9999">
             <div class="container">
                 @*<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ReseauSocial.Asp</a>*@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -43,10 +43,10 @@
                                     <a class="btn btn-outline-primary dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contacts</a>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a class="btn btn-outline-primary" asp-area="" asp-controller="User" asp-action="Index">Tous le monde </a>
-                                        <a class="btn btn-outline-primary" asp-area="" asp-controller="User" asp-action="MyConctacts">Mes contacts</a>
+                                        <a class="btn btn-outline-primary" asp-area="" asp-controller="User" asp-action="MyConctacts">Mes échanges</a>
                                         <a class="btn btn-outline-primary" asp-area="" asp-controller="Follower" asp-action="GetAllFollowedOfOneUser">Mes suivis</a>
                                         <a class="btn btn-outline-primary" asp-area="" asp-controller="Follower" asp-action="GetAllFollowersOfOneUser">Mes followers</a>
-
+                                        <a class="btn btn-outline-primary" asp-area="" asp-controller="Blacklist" asp-action="GetAllBlacklistedOfOneUser">Ma  blacklist</a>
                                     </div>
                                 </div>
                             </li>

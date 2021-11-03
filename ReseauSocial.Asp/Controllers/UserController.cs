@@ -29,7 +29,7 @@ namespace ReseauSocial.Asp.Controllers
         {
             if(_sessionHelpers.CurentUser is not null)
             {
-                IEnumerable<UserAsp> listUsers = _userBllService.GetAllUsers()
+                IEnumerable<UserAsp> listUsers = _userBllService.GetAllUsers(_sessionHelpers.CurentUser.Token)
                     .Where(u => u.Id != _sessionHelpers.CurentUser.Id)
                     .Select(u => u.UserBllToUserAsp());
                 return View(listUsers);
@@ -79,7 +79,7 @@ namespace ReseauSocial.Asp.Controllers
             _sessionHelpers.CurentUser = new UserSession { 
                 Id = user.Id,
                 Email = user.Email,
-                Token = null
+                Token = user.Token
             };
             return RedirectToAction("Index", "Home");
         }
@@ -93,21 +93,21 @@ namespace ReseauSocial.Asp.Controllers
         [HttpPost]
         public IActionResult AskActivateStatus(int ChangedUserId)
         {
-            _userBllService.AskActivateStatus(ChangedUserId);
+            _userBllService.AskActivateStatus(ChangedUserId, _sessionHelpers.CurentUser.Token);
             return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
         public IActionResult DeactivateStatus(int ChangUserId)
         {
-            _userBllService.DeactivateStatus(ChangUserId);
+            _userBllService.DeactivateStatus(ChangUserId, _sessionHelpers.CurentUser.Token);
             return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
         public IActionResult AskDeleteStatus(int ChangedUserId)
         {
-            _userBllService.AskDeleteStatus(ChangedUserId);
+            _userBllService.AskDeleteStatus(ChangedUserId, _sessionHelpers.CurentUser.Token);
             return RedirectToAction("Index", "Home");
         }
 
@@ -121,7 +121,7 @@ namespace ReseauSocial.Asp.Controllers
 
         public IActionResult Update(int id)
         {
-            UserAsp user = _userBllService.GetUser(_sessionHelpers.CurentUser.Id).UserBllToUserAsp();
+            UserAsp user = _userBllService.GetUser(_sessionHelpers.CurentUser.Id, _sessionHelpers.CurentUser.Token).UserBllToUserAsp();
             if (user.Id != id)
                 return RedirectToAction("Index");
             UpdateUser updateUser = new UpdateUser
@@ -139,35 +139,22 @@ namespace ReseauSocial.Asp.Controllers
             if (!ModelState.IsValid)
                 return View(entity);
 
-            _userBllService.Update( id,  entity.UpdateUserToUserBll());
+            _userBllService.Update( id,  entity.UpdateUserToUserBll(), _sessionHelpers.CurentUser.Token);
             return RedirectToAction("Index", "Home");
-        }
-
-
-        [HttpGet]
-        public IActionResult Get()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public IActionResult GetById(int id)
-        {
-            return View();
         }
 
         
         public IActionResult ProfilUser()
         {
 
-            UserAsp user = _userBllService.GetUser(_sessionHelpers.CurentUser.Id).UserBllToUserAsp();
+            UserAsp user = _userBllService.GetUser(_sessionHelpers.CurentUser.Id, _sessionHelpers.CurentUser.Token).UserBllToUserAsp();
             
             ProfileUser profil = new ProfileUser { 
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
                 Id = user.Id,
-                Status = _userBllService.GetStatus(user.Id)
+                Status = _userBllService.GetStatus(user.Id, _sessionHelpers.CurentUser.Token)
             };
             return View(profil);
         }
@@ -178,7 +165,7 @@ namespace ReseauSocial.Asp.Controllers
            IEnumerable<UserAsp> listMyContacts = _messageBll.GetAllMessagesOfUser(_sessionHelpers.CurentUser.Id)
                 .Select(m => m.UserSend != _sessionHelpers.CurentUser.Id ? m.UserSend : m.UserGet)
                 .Distinct()
-                .Select(id => _userBllService.GetUser(id).UserBllToUserAsp()) ;
+                .Select(id => _userBllService.GetUser(id, _sessionHelpers.CurentUser.Token).UserBllToUserAsp()) ;
 
 
             return View(listMyContacts);

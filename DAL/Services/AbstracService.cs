@@ -13,6 +13,15 @@ namespace DAL.Services
         {
             client.BaseAddress = new Uri("https://localhost:44392/api/");
         } 
+
+        protected void setBaseAdresseWithToken(HttpClient client , string token)
+        {
+            client.BaseAddress = new Uri("https://localhost:44392/api/");
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            //idem que la ligne precedante
+            //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer ", token);
+            
+        }
         
     }
 }

@@ -19,34 +19,34 @@ namespace BLL.Services
             _userDalService = userDalService;
         }
 
-        public void AskActivateStatus(int ChangedUserId)
+        public void AskActivateStatus(int ChangedUserId, string token)
         {
-            _userDalService.AskActivateStatus(ChangedUserId);
+            _userDalService.AskActivateStatus(ChangedUserId, token);
         }
 
-        public void AskDeleteStatus(int ChangedUserId)
+        public void AskDeleteStatus(int ChangedUserId, string token)
         {
-            _userDalService.AskDeleteStatus(ChangedUserId);
+            _userDalService.AskDeleteStatus(ChangedUserId, token);
         }
 
-        public void BlockedStatus(int ChangedUserId, int EditorUserId)
+        public void BlockedStatus(int ChangedUserId, int EditorUserId, string token)
         {
-            _userDalService.BlockedStatus(ChangedUserId, EditorUserId);
+            _userDalService.BlockedStatus(ChangedUserId, EditorUserId, token);
         }
 
-        public void DeactivateStatus(int ChangUserId)
+        public void DeactivateStatus(int ChangUserId, string token)
         {
-            _userDalService.DeactivateStatus(ChangUserId);
+            _userDalService.DeactivateStatus(ChangUserId, token);
         }
 
-        public void Delete(int id)
+        public void Delete(int id, string token)
         {
-            _userDalService.Delete(id);
+            _userDalService.Delete(id, token);
         }
 
-        public void DeleteStatus(int ChangedUserId, int EditorUserId)
+        public void DeleteStatus(int ChangedUserId, int EditorUserId, string token)
         {
-            _userDalService.DeleteStatus(ChangedUserId, EditorUserId);
+            _userDalService.DeleteStatus(ChangedUserId, EditorUserId, token);
         }
 
         public bool EmailExists(string email)
@@ -60,9 +60,9 @@ namespace BLL.Services
             return _userDalService.Login(email, passwd).DalUserToBllUser();
         }
 
-        public void ReactivateStatus(int ChangedUserId)
+        public void ReactivateStatus(int ChangedUserId, string token)
         {
-            _userDalService.ReactivateStatus(ChangedUserId);
+            _userDalService.ReactivateStatus(ChangedUserId, token);
         }
 
         public void Register(UserBll entity)
@@ -70,24 +70,24 @@ namespace BLL.Services
             _userDalService.Register(entity.UserBllToUserDal());
         }
 
-        public void Update(int id, UserBll entity)
+        public void Update(int id, UserBll entity, string token)
         {
-            _userDalService.Update(id, entity.UserBllToUserDal());
+            _userDalService.Update(id, entity.UserBllToUserDal(), token);
         }
 
-        public StatusBll GetStatus(int userId)
+        public StatusBll GetStatus(int userId, string token)
         {
-           return _userDalService.GetStatus(userId).DalStatusToBllStatus();
+           return _userDalService.GetStatus(userId, token).DalStatusToBllStatus();
         }
 
-        public UserBll GetUser(int userId)
+        public UserBll GetUser(int userId, string token)
         {
-            return _userDalService.GetUser(userId).DalUserToBllUser();
+            return _userDalService.GetUser(userId, token).DalUserToBllUser();
         }
 
-        public IEnumerable<UserBll> GetAllUsers()
+        public IEnumerable<UserBll> GetAllUsers( string token)
         {
-            return _userDalService.GetAllUsers().Select(u => u.DalUserToBllUser());
+            return _userDalService.GetAllUsers(token).Select(u => u.DalUserToBllUser());
         }
     }
 }

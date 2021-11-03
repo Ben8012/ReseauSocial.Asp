@@ -5,7 +5,7 @@
 
 @{
     ViewData["Title"] = "Index";
-    var curentUser = userService.GetUser(sessionManager.CurentUser.Id);
+    var curentUser = userService.GetUser(sessionManager.CurentUser.Id, sessionManager.CurentUser.Token);
 }
 
 
@@ -23,8 +23,8 @@
     <div class="container">
         <div class="row">
             <div class="col-4">
-                <div class=" list-group " role="tablist" id="listContact"></div>
-                <div class=" list-group  " role="tablist" id="listUsers" style="display:none"></div>
+                <div class=" list-group " role="tablist" id="listContact"  style="z-index:-1"></div>
+                <div class=" list-group  " role="tablist" id="listUsers" style="display:none ; z-index:-1"></div>
             </div>
             
 

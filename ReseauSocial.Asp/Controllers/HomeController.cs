@@ -36,7 +36,7 @@ namespace ReseauSocial.Asp.Controllers
                 .Take(10)
                 .Select(a =>{
                     ArticleAsp article = a.ArticleBllToArticleAsp();
-                    article.UserArticle = _userBll.GetUser(a.UserId).UserBllToUserAsp();
+                    article.UserArticle = _userBll.GetUser(a.UserId, null).UserBllToUserAsp();
                     return article;
                 });
               

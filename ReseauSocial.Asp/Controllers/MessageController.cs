@@ -28,7 +28,7 @@ namespace ReseauSocial.Asp.Controllers
             if (_sessionHelpers.CurentUser is null)
                 return RedirectToAction("Index", "Home");
 
-            IEnumerable<UserBll> listUsers = _userService.GetAllUsers().Where(u => u.Id != _sessionHelpers.CurentUser.Id);
+            IEnumerable<UserBll> listUsers = _userService.GetAllUsers(_sessionHelpers.CurentUser.Token).Where(u => u.Id != _sessionHelpers.CurentUser.Id);
 
             return View(listUsers);
         }
@@ -39,7 +39,7 @@ namespace ReseauSocial.Asp.Controllers
         {     
             if(_sessionHelpers.CurentUser is not null && _sessionHelpers.CurentUser.Id != id)
             {
-                UserBll user = _userService.GetUser(id);
+                UserBll user = _userService.GetUser(id, _sessionHelpers.CurentUser.Token);
                 if(user != null)
                 {
                     return View(user);

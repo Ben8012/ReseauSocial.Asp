@@ -33,7 +33,8 @@ namespace ReseauSocial.Asp.Mappers
                 Email = entity.Email,
                 IsAdmin = entity.IsAdmin,
                 Passwd = entity.Passwd,
-                Status = entity.Status
+                Status = entity.Status,
+                
             };
         }
 

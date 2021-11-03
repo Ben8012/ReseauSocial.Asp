@@ -17,6 +17,7 @@ namespace DAL.Models
 
         public bool IsAdmin { get; set; }
         public string Passwd { get; set; }
+        public string Token { get; set; }
 
     }
 }

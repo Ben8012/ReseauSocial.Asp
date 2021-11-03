@@ -5,24 +5,24 @@ namespace DAL.Interfaces
 {
     public interface IUserDalService
     {
-        void ReactivateStatus(int ChangedUserId);
-        void AskActivateStatus(int ChangedUserId);
-        void AskDeleteStatus(int ChangedUserId);
-        void BlockedStatus(int ChangedUserId, int EditorUserId);
-        void DeactivateStatus(int ChangUserId);
-        void Delete(int id);
-        void DeleteStatus(int ChangedUserId, int EditorUserId);
+        void ReactivateStatus(int ChangedUserId, string token);
+        void AskActivateStatus(int ChangedUserId, string token);
+        void AskDeleteStatus(int ChangedUserId, string token);
+        void BlockedStatus(int ChangedUserId, int EditorUserId, string token);
+        void DeactivateStatus(int ChangUserId, string token);
+        void Delete(int id, string token);
+        void DeleteStatus(int ChangedUserId, int EditorUserId, string token);
         bool EmailExists(string email);
 
         UserDal Login(string email, string passwd);
         
         void Register(UserDal entity);
-        void Update(int id, UserDal entity);
+        void Update(int id, UserDal entity, string token);
 
-        StatusDal GetStatus(int userId);
+        StatusDal GetStatus(int userId, string token);
 
-        UserDal GetUser(int userId);
+        UserDal GetUser(int userId, string token);
 
-        IEnumerable<UserDal> GetAllUsers();
+        IEnumerable<UserDal> GetAllUsers(string token);
     }
 }

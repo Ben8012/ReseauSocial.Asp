@@ -1,9 +1,10 @@
 ﻿@model IEnumerable<ReseauSocial.Asp.Models.UserAsp>
-    @inject ReseauSocial.Asp.Sessions.ISessionHelpers sessionManager
-    @inject BLL.Interfaces.IFollowerBll _followerBll
-    @{
-    ViewData["Title"] = "Mes contacts";
-    }
+@inject ReseauSocial.Asp.Sessions.ISessionHelpers sessionManager
+@inject BLL.Interfaces.IFollowerBll _followerBll
+@inject BLL.Interfaces.IBlacklistBll _blacklistBll
+@{
+ViewData["Title"] = "Mes contacts";
+}
 
     <h1>Mes contacts</h1>
 
@@ -35,17 +36,23 @@
                     <a asp-controller="Article" asp-action="GetArticleByUserId" asp-route-id="@item.Id" class="btn btn-success">Voir les articles</a>
                     @if (_followerBll.IsFollowBy(sessionManager.CurentUser.Id, item.Id))
                     {
-                    <a asp-controller="Follower" asp-action="UnFollow" asp-route-id="@item.Id" class="btn btn-danger">Ne plus suivre</a>
+                        <a asp-controller="Follower" asp-action="UnFollow" asp-route-id="@item.Id" class="btn btn-danger">Ne plus suivre</a>
                     }
                     else
                     {
-                    <a asp-controller="Follower" asp-action="Follow" asp-route-id="@item.Id" class="btn btn-success">Suivre</a>
+                        @if (!_blacklistBll.IsUser1BlacklisterOfUser2(sessionManager.CurentUser.Id, item.Id))
+                        {
+                            <a asp-controller="Follower" asp-action="Follow" asp-route-id="@item.Id" class="btn btn-success">Suivre</a>
+                        }
                     }
-
-
-
-
-                    @*  <a asp-controller="User" asp-action="Blacklist" asp-route-id="@item.Id" class="btn btn-success">Black lister</a>*@
+                    @if (_blacklistBll.IsUser1BlacklisterOfUser2(sessionManager.CurentUser.Id, item.Id))
+                    {
+                        <a asp-controller="Blacklist" asp-action="UnBlacklist" asp-route-id="@item.Id" class="btn btn-danger">Déblacklister</a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Blacklist" asp-action="Blacklist" asp-route-id="@item.Id" class="btn btn-danger">Blacklister</a>
+                    }
                 </td>
             </tr>
         }

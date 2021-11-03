@@ -3,10 +3,10 @@
 @inject BLL.Interfaces.IFollowerBll _followerBll
 @inject BLL.Interfaces.IBlacklistBll _blacklistBll
 @{
-    ViewData["Title"] = "Mes followers";
+    ViewData["Title"] = "Ma blaclist";
 }
 
-<h1>Mes followers</h1>
+<h1>Ma blaclist</h1>
 
 
 <table class="table">
@@ -32,9 +32,9 @@
                 </td>
                 <td>
 
-                    <a asp-controller="Message" asp-action="MessageTo" asp-route-id="@item.Id" class="btn btn-success">Envoyer un message</a>
-                    <a asp-controller="Article" asp-action="GetArticleByUserId" asp-route-id="@item.Id" class="btn btn-success">Voir les articles</a>
-                    @if (_followerBll.IsFollowBy(sessionManager.CurentUser.Id, item.Id))
+                   @* <a asp-controller="Message" asp-action="MessageTo" asp-route-id="@item.Id" class="btn btn-success">Envoyer un message</a>
+                    <a asp-controller="Article" asp-action="GetArticleByUserId" asp-route-id="@item.Id" class="btn btn-success">Voir les articles</a>*@
+                    @*@if (_followerBll.IsFollowBy(sessionManager.CurentUser.Id, item.Id))
                     {
                         <a asp-controller="Follower" asp-action="UnFollow" asp-route-id="@item.Id" class="btn btn-danger">Ne plus suivre</a>
                     }
@@ -46,13 +46,13 @@
                         }
                     }
                     @if (_blacklistBll.IsUser1BlacklisterOfUser2(sessionManager.CurentUser.Id, item.Id))
-                    {
+                    {*@
                         <a asp-controller="Blacklist" asp-action="UnBlacklist" asp-route-id="@item.Id" class="btn btn-danger">Déblacklister</a>
-                    }
+                    @*}
                     else
                     {
                         <a asp-controller="Blacklist" asp-action="Blacklist" asp-route-id="@item.Id" class="btn btn-danger">Blacklister</a>
-                    }
+                    }*@
                 </td>
             </tr>
         }

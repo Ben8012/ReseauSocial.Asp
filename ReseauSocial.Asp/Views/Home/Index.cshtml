@@ -58,9 +58,10 @@
 
                 @if (sessionManager.CurentUser is not null)
                 {
+                    <a asp-controller="Article" asp-action="GetArticleById" asp-route-id="@item.Id" class="btn btn-success">Details</a>
+
                     @if (sessionManager.CurentUser.Id == item.UserId)
                     {
-                        <a asp-controller="Article" asp-action="GetArticleById" asp-route-id="@item.Id" class="btn btn-success">Details</a>
                         <a asp-controller="Article" asp-action="Update" asp-route-id="@item.Id" class="btn btn-primary">Modifier</a>
                         <a asp-controller="Article" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Effacer</a>
                     }

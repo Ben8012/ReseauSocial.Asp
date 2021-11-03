@@ -2,6 +2,7 @@
 using BLL.Models;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
+using ReseauSocial.Asp.Sessions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,15 @@ namespace ReseauSocial.Asp.HubTools
     {
         private readonly ICommentBll _commentService;
         private readonly IUserBllService _userService;
-        public CommentHub(ICommentBll commentService, IUserBllService userService) : base()
+        private readonly ISessionHelpers _sessionHelper;
+
+        public CommentHub(ICommentBll commentService, IUserBllService userService, ISessionHelpers sessionHelper) : base()
         {
             _commentService = commentService;
             _userService = userService;
+            _sessionHelper = sessionHelper;
         }
+
         public async Task SendComment(string message, int articleId, int userId)
         {
             _commentService.AddComment(new CommentBll
@@ -26,7 +31,7 @@ namespace ReseauSocial.Asp.HubTools
                 ArticleId = articleId,
                 UserId = userId
             });
-            UserBll user = _userService.GetUser(userId);
+            UserBll user = _userService.GetUser(userId, _sessionHelper.CurentUser.Token);
             await Clients.All.SendAsync("ReceiveComment", message, userId, user.LastName + " " + user.FirstName);
         }
         public async Task GetComments(int articleId)
@@ -38,7 +43,7 @@ namespace ReseauSocial.Asp.HubTools
                     Message = c.Message,
                     UserId = c.UserId,
                     Date = c.Date,
-                    AuthorName = _userService.GetUser(c.UserId).LastName + " " + _userService.GetUser(c.UserId).FirstName
+                    AuthorName = _userService.GetUser(c.UserId, _sessionHelper.CurentUser.Token).LastName + " " + _userService.GetUser(c.UserId, _sessionHelper.CurentUser.Token).FirstName
                 });
             await Clients.Caller.SendAsync("ReceiveComments", JsonConvert.SerializeObject(comments));
         }

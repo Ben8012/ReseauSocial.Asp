@@ -35,7 +35,7 @@ namespace ReseauSocial.Asp.Controllers
                 .Select(a =>
                    {
                        ArticleAsp article = a.ArticleBllToArticleAsp();
-                       article.UserArticle = _userBll.GetUser(a.UserId).UserBllToUserAsp();
+                       article.UserArticle = _userBll.GetUser(a.UserId, _sessionHelpers.CurentUser.Token).UserBllToUserAsp();
                        return article;
                    });
                
@@ -134,7 +134,7 @@ namespace ReseauSocial.Asp.Controllers
         public IActionResult GetArticleById(int id)
         {
             ArticleAsp article = _articleBll.GetArticleById(id).ArticleBllToArticleAsp();
-            article.UserArticle = _userBll.GetUser(article.UserId).UserBllToUserAsp();
+            article.UserArticle = _userBll.GetUser(article.UserId, _sessionHelpers.CurentUser.Token).UserBllToUserAsp();
         
             return View(article);
 
@@ -145,7 +145,7 @@ namespace ReseauSocial.Asp.Controllers
         {
             IEnumerable<ArticleAsp> listArticles = _articleBll.GetArticleByUserId(id)
                 .Select(a => a.ArticleBllToArticleAsp());
-            ViewBag.User = _userBll.GetUser(id).UserBllToUserAsp();
+            ViewBag.User = _userBll.GetUser(id, _sessionHelpers.CurentUser.Token).UserBllToUserAsp();
 
             return View(listArticles);
         }
@@ -158,7 +158,7 @@ namespace ReseauSocial.Asp.Controllers
                 .Select(a =>
                 {
                     ArticleAsp article = a.ArticleBllToArticleAsp();
-                    article.UserArticle = _userBll.GetUser(a.UserId).UserBllToUserAsp();
+                    article.UserArticle = _userBll.GetUser(a.UserId, _sessionHelpers.CurentUser.Token).UserBllToUserAsp();
                     return article;
                 });
             return View(listArticles);

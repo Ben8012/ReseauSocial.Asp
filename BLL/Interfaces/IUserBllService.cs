@@ -5,22 +5,24 @@ namespace BLL.Interfaces
 {
     public interface IUserBllService
     {
-        void AskActivateStatus(int ChangedUserId);
-        void AskDeleteStatus(int ChangedUserId);
-        void BlockedStatus(int ChangedUserId, int EditorUserId);
-        void DeactivateStatus(int ChangUserId);
-        void Delete(int id);
-        void DeleteStatus(int ChangedUserId, int EditorUserId);
+        void ReactivateStatus(int ChangedUserId, string token);
+        void AskActivateStatus(int ChangedUserId, string token);
+        void AskDeleteStatus(int ChangedUserId, string token);
+        void BlockedStatus(int ChangedUserId, int EditorUserId, string token);
+        void DeactivateStatus(int ChangUserId, string token);
+        void Delete(int id, string token);
+        void DeleteStatus(int ChangedUserId, int EditorUserId, string token);
         bool EmailExists(string email);
+
         UserBll Login(string email, string passwd);
-        void ReactivateStatus(int ChangedUserId);
+
         void Register(UserBll entity);
-        void Update(int id, UserBll entity);
+        void Update(int id, UserBll entity, string token);
 
-        StatusBll GetStatus(int userId);
+        StatusBll GetStatus(int userId, string token);
 
-        UserBll GetUser(int userId);
+        UserBll GetUser(int userId, string token);
 
-        IEnumerable<UserBll> GetAllUsers();
+        IEnumerable<UserBll> GetAllUsers(string token);
     }
 }

@@ -72,6 +72,10 @@ namespace ReseauSocial.Asp
             services.AddScoped<IFollowerDal, FollowerDalService>();
             services.AddScoped<IFollowerBll, FollowerBllService>();
 
+            //injection blacklist
+            services.AddScoped<IBlacklistDal, BlacklistDalService>();
+            services.AddScoped<IBlacklistBll, BlacklistBllService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

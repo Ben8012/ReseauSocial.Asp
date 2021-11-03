@@ -24,5 +24,7 @@ namespace ReseauSocial.Asp.Models
         public string Passwd { get; set; }
 
         public StatusBll Status { get; set; }
+
+        public string Token { get; set; }
     }
 }
