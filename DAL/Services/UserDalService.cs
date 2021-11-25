@@ -69,65 +69,26 @@ namespace DAL.Services
             {
                 setBaseAdresseWithToken(client, token);
 
-                string jsonBody = JsonConvert.SerializeObject(new { ChangedUserId = ChangedUserId });
-                HttpContent content = new StringContent(jsonBody, Encoding.Default, "application/json");
-
-                using (HttpResponseMessage message = client.PostAsync("User/ReactivateStatus", content).Result)
+                using (HttpResponseMessage message = client.GetAsync("User/ReactivateStatus/"+ ChangedUserId).Result)
                 {
                     message.EnsureSuccessStatusCode();
                 }
             }
         }
 
-        public void DeactivateStatus(int ChangUserId, string token)
+        public void DeactivateStatus(int ChangedUserId, string token)
         {
             using (HttpClient client = new HttpClient())
             {
                 setBaseAdresseWithToken(client, token);
 
-                string jsonBody = JsonConvert.SerializeObject(new { ChangUserId = ChangUserId });
-                HttpContent content = new StringContent(jsonBody, Encoding.Default, "application/json");
-
-                using (HttpResponseMessage message = client.PostAsync("User/DeactivateStatus", content).Result)
+                using (HttpResponseMessage message = client.GetAsync("User/DeactivateStatus/" + ChangedUserId).Result)
                 {
                     message.EnsureSuccessStatusCode();
                 }
             }
         }
 
-        public void BlockedStatus(int ChangedUserId, int EditorUserId, string token)
-        {
-            using (HttpClient client = new HttpClient())
-            {
-                setBaseAdresseWithToken(client, token);
-
-                string jsonBody = JsonConvert.SerializeObject(new { ChangedUserId = ChangedUserId, EditorUserId = EditorUserId });
-                HttpContent content = new StringContent(jsonBody, Encoding.Default, "application/json");
-
-                using (HttpResponseMessage message = client.PostAsync("User/BlockedStatus", content).Result)
-                {
-                    message.EnsureSuccessStatusCode();
-                }
-            }
-
-        }
-
-        public void DeleteStatus(int ChangedUserId, int EditorUserId, string token)
-        {
-
-            using (HttpClient client = new HttpClient())
-            {
-                setBaseAdresseWithToken(client, token);
-
-                string jsonBody = JsonConvert.SerializeObject(new { ChangedUserId = ChangedUserId, EditorUserId = EditorUserId });
-                HttpContent content = new StringContent(jsonBody, Encoding.Default, "application/json");
-
-                using (HttpResponseMessage message = client.PostAsync("User/DeleteStatus", content).Result)
-                {
-                    message.EnsureSuccessStatusCode();
-                }
-            }
-        }
 
         public void AskActivateStatus(int ChangedUserId, string token)
         {
@@ -135,10 +96,7 @@ namespace DAL.Services
             {
                 setBaseAdresseWithToken(client, token);
 
-                string jsonBody = JsonConvert.SerializeObject(new { ChangedUserId = ChangedUserId });
-                HttpContent content = new StringContent(jsonBody, Encoding.Default, "application/json");
-
-                using (HttpResponseMessage message = client.PostAsync("User/AskActivateStatus", content).Result)
+                using (HttpResponseMessage message = client.GetAsync("User/AskActivateStatus/" + ChangedUserId).Result)
                 {
                     message.EnsureSuccessStatusCode();
                 }
@@ -151,10 +109,7 @@ namespace DAL.Services
             {
                 setBaseAdresseWithToken(client, token);
 
-                string jsonBody = JsonConvert.SerializeObject(new { ChangedUserId = ChangedUserId });
-                HttpContent content = new StringContent(jsonBody, Encoding.Default, "application/json");
-
-                using (HttpResponseMessage message = client.PostAsync("User/AskDeleteStatus", content).Result)
+                using (HttpResponseMessage message = client.GetAsync("User/AskDeleteStatus/" + ChangedUserId).Result)
                 {
                     message.EnsureSuccessStatusCode();
                 }

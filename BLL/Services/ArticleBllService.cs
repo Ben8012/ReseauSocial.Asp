@@ -19,10 +19,7 @@ namespace BLL.Services
             _articleDal = articleDal;
         }
 
-        public void BlockArticle(int articleId, int AdminId, string message)
-        {
-            _articleDal.BlockArticle(articleId, AdminId, message);
-        }
+       
 
         public void CommentArticle(int articleId, int userId, string message)
         {
@@ -62,6 +59,16 @@ namespace BLL.Services
         public ArticleBll GetArticleById(int articleId)
         {
             return _articleDal.GetArticleById(articleId).ArticleDalToArticleBll();
+        }
+
+        public bool IsSignalByUser(int articleId, int userId)
+        {
+            return _articleDal.IsSignalByUser(articleId, userId);
+        }
+
+        public void UnSignalArticle(int articleId, int userId)
+        {
+            _articleDal.UnSignalArticle(articleId, userId);
         }
     }
 }

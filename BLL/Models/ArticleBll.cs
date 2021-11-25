@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DAL.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,8 @@ namespace BLL.Models
         public int UserId { get; set; }
 
         public DateTime Date { get; set; }
+
+        public StatusArticleEnum StatusArticle { get; set; }
 
     }
 }

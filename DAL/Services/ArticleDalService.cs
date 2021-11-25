@@ -12,27 +12,7 @@ namespace DAL.Services
 {
     public class ArticleDalService : AbstracService, IArticleDal
     {
-        public void BlockArticle(int articleId, int adminId, string messageWhyBlocked)
-        {
-
-            using (HttpClient client = new HttpClient())
-            {
-                setBaseAdress(client);
-
-                string jsonBody = JsonConvert.SerializeObject(
-                    new ArticleBlocked {
-                        ArticleId = articleId,
-                        AdminId = adminId,
-                        Message = messageWhyBlocked 
-                    });
-                HttpContent content = new StringContent(jsonBody, Encoding.Default, "application/json");
-
-                using (HttpResponseMessage message = client.PostAsync("Article/BlockArticle", content).Result)
-                {
-                    message.EnsureSuccessStatusCode();
-                }
-            }
-        }
+      
 
         public void CommentArticle(int articleId, int userId, string messageComment)
         {
@@ -177,6 +157,36 @@ namespace DAL.Services
                 HttpContent content = new StringContent(jsonBody, Encoding.Default, "application/json");
 
                 using (HttpResponseMessage message = client.PostAsync("Article/Update/"+id, content).Result)
+                {
+                    message.EnsureSuccessStatusCode();
+                }
+            }
+        }
+
+        public bool IsSignalByUser(int articleId, int userId)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                setBaseAdress(client);
+
+                using (HttpResponseMessage message = client.GetAsync("Article/IsSignalByUser/" + articleId + "/" + userId).Result)
+                {
+                    if (!message.IsSuccessStatusCode)
+                        throw new HttpRequestException();
+
+                    string json = message.Content.ReadAsStringAsync().Result;
+                    return JsonConvert.DeserializeObject<bool>(json);
+                }
+            }
+        }
+
+        public void UnSignalArticle(int articleId, int userId)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                setBaseAdress(client);
+
+                using (HttpResponseMessage message = client.GetAsync("Article/UnSignalArticle/" + articleId + "/" + userId).Result)
                 {
                     message.EnsureSuccessStatusCode();
                 }

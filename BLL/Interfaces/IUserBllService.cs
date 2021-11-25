@@ -8,10 +8,10 @@ namespace BLL.Interfaces
         void ReactivateStatus(int ChangedUserId, string token);
         void AskActivateStatus(int ChangedUserId, string token);
         void AskDeleteStatus(int ChangedUserId, string token);
-        void BlockedStatus(int ChangedUserId, int EditorUserId, string token);
+       
         void DeactivateStatus(int ChangUserId, string token);
         void Delete(int id, string token);
-        void DeleteStatus(int ChangedUserId, int EditorUserId, string token);
+      
         bool EmailExists(string email);
 
         UserBll Login(string email, string passwd);

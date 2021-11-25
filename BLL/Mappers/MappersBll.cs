@@ -79,7 +79,8 @@ namespace BLL.Mappers
                  UserId = entity.UserId,
                  CommentOk = entity.CommentOk,
                  OnLigne = entity.OnLigne,
-                 Date = entity.Date
+                 Date = entity.Date,
+                 StatusArticle = entity.StatusArticle
              };
          }
 

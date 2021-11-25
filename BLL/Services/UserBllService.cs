@@ -29,11 +29,7 @@ namespace BLL.Services
             _userDalService.AskDeleteStatus(ChangedUserId, token);
         }
 
-        public void BlockedStatus(int ChangedUserId, int EditorUserId, string token)
-        {
-            _userDalService.BlockedStatus(ChangedUserId, EditorUserId, token);
-        }
-
+     
         public void DeactivateStatus(int ChangUserId, string token)
         {
             _userDalService.DeactivateStatus(ChangUserId, token);
@@ -44,10 +40,7 @@ namespace BLL.Services
             _userDalService.Delete(id, token);
         }
 
-        public void DeleteStatus(int ChangedUserId, int EditorUserId, string token)
-        {
-            _userDalService.DeleteStatus(ChangedUserId, EditorUserId, token);
-        }
+       
 
         public bool EmailExists(string email)
         {

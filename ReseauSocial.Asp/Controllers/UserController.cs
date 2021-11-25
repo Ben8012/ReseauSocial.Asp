@@ -90,24 +90,31 @@ namespace ReseauSocial.Asp.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [HttpPost]
+        [HttpGet("AskActivateStatus/{ChangedUserId}")]
         public IActionResult AskActivateStatus(int ChangedUserId)
         {
             _userBllService.AskActivateStatus(ChangedUserId, _sessionHelpers.CurentUser.Token);
             return RedirectToAction("Index", "Home");
         }
 
-        [HttpPost]
-        public IActionResult DeactivateStatus(int ChangUserId)
+        [HttpGet("DeactivateStatus/{ChangedUserId}")]
+        public IActionResult DeactivateStatus(int ChangedUserId)
         {
-            _userBllService.DeactivateStatus(ChangUserId, _sessionHelpers.CurentUser.Token);
+            _userBllService.DeactivateStatus(ChangedUserId, _sessionHelpers.CurentUser.Token);
             return RedirectToAction("Index", "Home");
         }
 
-        [HttpPost]
+        [HttpGet("AskDeleteStatus/{ChangedUserId}")]
         public IActionResult AskDeleteStatus(int ChangedUserId)
         {
             _userBllService.AskDeleteStatus(ChangedUserId, _sessionHelpers.CurentUser.Token);
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet("ReactivateStatus/{ChangedUserId}")]
+        public IActionResult ReactivateStatus(int ChangedUserId)
+        {
+            _userBllService.ReactivateStatus(ChangedUserId, _sessionHelpers.CurentUser.Token);
             return RedirectToAction("Index", "Home");
         }
 

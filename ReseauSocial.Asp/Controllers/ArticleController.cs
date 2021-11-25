@@ -30,7 +30,7 @@ namespace ReseauSocial.Asp.Controllers
         public IActionResult Index()
         {
             IEnumerable<ArticleAsp> listArticles = _articleBll.GetAllArticle()
-                .Where(a=> a.OnLigne)
+                .Where(a=> a.OnLigne && a.StatusArticle != DAL.Models.StatusArticleEnum.Block )
                 .OrderByDescending(a => a.Date)
                 .Select(a =>
                    {
@@ -93,6 +93,20 @@ namespace ReseauSocial.Asp.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet("UnSignalArticle/{id}")]
+        public IActionResult UnSignalArticle(int id)
+        {
+            ArticleBll article = _articleBll.GetArticleById(id);
+
+            if (_sessionHelpers.CurentUser is not null && _articleBll.IsSignalByUser(id, _sessionHelpers.CurentUser.Id))
+                _articleBll.UnSignalArticle(id, _sessionHelpers.CurentUser.Id);
+
+            return RedirectToAction("Index");
+        }
+
+
+        
+
         [HttpGet("Update/{id}")]
         public IActionResult Update(int id)
         {
@@ -144,6 +158,7 @@ namespace ReseauSocial.Asp.Controllers
         public IActionResult GetArticleByUserId(int id)
         {
             IEnumerable<ArticleAsp> listArticles = _articleBll.GetArticleByUserId(id)
+                .Where(a => a.StatusArticle != DAL.Models.StatusArticleEnum.Block) // les articles qui ne sont pas bloqués
                 .Select(a => a.ArticleBllToArticleAsp());
             ViewBag.User = _userBll.GetUser(id, _sessionHelpers.CurentUser.Token).UserBllToUserAsp();
 

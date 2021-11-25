@@ -7,7 +7,7 @@
 <h1>Votre profile</h1>
 
 <div>
-    <h4>ProfileUser</h4>
+   
     <hr />
     <dl class="row">
 
@@ -37,17 +37,17 @@
 
     @if (Model.Status.Id == (int)ReseauSocial.Asp.Models.StatusType.Actived)
     {
-        <a asp-controller="User" asp-action="DeactivateStatus" asp-route-id="@Model.Id" class="btn btn-danger">Déactiver</a>
-        <a asp-controller="User" asp-action="AskDeleteStatus" asp-route-id="@Model.Id" class="btn btn-danger">Supprimer</a>
+        <a asp-controller="User" asp-action="DeactivateStatus" asp-route-ChangedUserId="@Model.Id" class="btn btn-danger">Déactiver</a>
+        <a asp-controller="User" asp-action="AskDeleteStatus"  asp-route-ChangedUserId="@Model.Id" class="btn btn-danger">Supprimer</a>
 
     }
     else if (Model.Status.Id == (int)ReseauSocial.Asp.Models.StatusType.Deactived)
     {
-        <a asp-controller="User" asp-action="ReactivateStatus" asp-route-id="@Model.Id" class="btn btn-succes">Réactiver</a>
+        <a asp-controller="User" asp-action="ReactivateStatus"  asp-route-ChangedUserId="@Model.Id" class="btn btn-primary">Réactiver</a>
     }
     else if (Model.Status.Id == (int)ReseauSocial.Asp.Models.StatusType.AskDeleted)
     {
-        <a asp-controller="User" asp-action="ReactivateStatus" asp-route-id="@Model.Id" class="btn btn-succes">Réactiver</a>       
+        <a asp-controller="User" asp-action="ReactivateStatus"  asp-route-ChangedUserId="@Model.Id" class="btn btn-primary">Réactiver</a>       
     }
   
 </div>

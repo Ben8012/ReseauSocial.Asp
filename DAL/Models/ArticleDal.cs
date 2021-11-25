@@ -21,5 +21,9 @@ namespace DAL.Models
 
         public DateTime Date { get; set; }
 
+        public StatusArticleEnum StatusArticle { get; set; }
+
+
+
     }
 }

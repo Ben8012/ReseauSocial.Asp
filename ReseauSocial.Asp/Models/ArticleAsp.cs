@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DAL.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -32,7 +33,7 @@ namespace ReseauSocial.Asp.Models
 
         public UserAsp UserArticle { get; set; }
 
-       
+        public StatusArticleEnum StatusArticle { get; set; }
 
     }
 }
