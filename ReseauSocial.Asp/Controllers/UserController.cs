@@ -68,20 +68,39 @@ namespace ReseauSocial.Asp.Controllers
             {
                 return View(entity);
             }
-
-            UserBll user = _userBllService.Login(entity.Email, entity.Passwd);
-           
-            if (user is null)
+            if (_userBllService.EmailExists(entity.Email))
             {
+                try
+                {
+                    UserBll user = _userBllService.Login(entity.Email, entity.Passwd);
+
+                    if (user is null)
+                    {
+                        ModelState.AddModelError(nameof(entity.Passwd), "mots de passe invalide");
+                        return View(entity);
+                    }
+
+                    _sessionHelpers.CurentUser = new UserSession
+                    {
+                        Id = user.Id,
+                        Email = user.Email,
+                        Token = user.Token
+                    };
+                    return RedirectToAction("Index", "Home");
+                }
+                catch(Exception e)
+                {
+                    ModelState.AddModelError(nameof(entity.Passwd), "mots de passe invalide");
+                    return View(entity);
+                }  
+            }
+            else
+            {
+                ModelState.AddModelError("Email", "email invalide");
                 return View(entity);
             }
-          
-            _sessionHelpers.CurentUser = new UserSession { 
-                Id = user.Id,
-                Email = user.Email,
-                Token = user.Token
-            };
-            return RedirectToAction("Index", "Home");
+
+            
         }
 
         public IActionResult Logout()

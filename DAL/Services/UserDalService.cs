@@ -125,7 +125,7 @@ namespace DAL.Services
                 string jsonBody = JsonConvert.SerializeObject(new { email = email });
                 HttpContent content = new StringContent(jsonBody, Encoding.Default, "application/json");
 
-                using (HttpResponseMessage message = client.PostAsync("User/register/", content).Result)
+                using (HttpResponseMessage message = client.PostAsync("User/EmailExists/", content).Result)
                 {
                     if (!message.IsSuccessStatusCode)
                         throw new HttpRequestException();

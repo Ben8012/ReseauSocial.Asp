@@ -81,7 +81,7 @@ document.getElementById("submitButton").addEventListener("click", (event) => {
         })
 })
 // click sur le boutton nouveau message vers utilisateur
-document.getElementById("NewMessageButton").addEventListener("click", (event) => {
+document.getElementById("NewMessageButton")?.addEventListener("click", (event) => {
     event.preventDefault()
 
     //montrer le panneau d'affiches des utilisateurs

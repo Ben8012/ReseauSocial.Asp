@@ -32,17 +32,17 @@
                 </td>
                 <td>
 
-                    <a asp-controller="Message" asp-action="MessageTo" asp-route-id="@item.Id" class="btn btn-success">Envoyer un message</a>
+                    <a asp-controller="Message" asp-action="MessageTo" asp-route-id="@item.Id" class="btn btn-primary">Envoyer un message</a>
                     <a asp-controller="Article" asp-action="GetArticleByUserId" asp-route-id="@item.Id" class="btn btn-success">Voir les articles</a>
                     @if (_followerBll.IsFollowBy(sessionManager.CurentUser.Id, item.Id))
                     {
-                        <a asp-controller="Follower" asp-action="UnFollow" asp-route-id="@item.Id" class="btn btn-danger">Ne plus suivre</a>
+                        <a asp-controller="Follower" asp-action="UnFollow" asp-route-id="@item.Id" class="btn btn-primary">Ne plus suivre</a>
                     }
                     else
                     {
                         @if (!_blacklistBll.IsUser1BlacklisterOfUser2(sessionManager.CurentUser.Id, item.Id))
                         {
-                            <a asp-controller="Follower" asp-action="Follow" asp-route-id="@item.Id" class="btn btn-success">Suivre</a>
+                            <a asp-controller="Follower" asp-action="Follow" asp-route-id="@item.Id" class="btn btn-primary">Suivre</a>
                         }
                     }
                     @if (_blacklistBll.IsUser1BlacklisterOfUser2(sessionManager.CurentUser.Id, item.Id))

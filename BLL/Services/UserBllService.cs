@@ -50,7 +50,7 @@ namespace BLL.Services
 
         public UserBll Login(string email, string passwd)
         {
-            return _userDalService.Login(email, passwd).DalUserToBllUser();
+            return _userDalService.Login(email, passwd)?.DalUserToBllUser();
         }
 
         public void ReactivateStatus(int ChangedUserId, string token)

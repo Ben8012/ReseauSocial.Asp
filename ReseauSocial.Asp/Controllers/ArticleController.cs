@@ -90,7 +90,7 @@ namespace ReseauSocial.Asp.Controllers
             if (article.UserId != _sessionHelpers.CurentUser.Id)
                  _articleBll.SignalArticle(id, _sessionHelpers.CurentUser.Id);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("GetArticleById", new { id = id});
         }
 
         [HttpGet("UnSignalArticle/{id}")]
@@ -101,7 +101,7 @@ namespace ReseauSocial.Asp.Controllers
             if (_sessionHelpers.CurentUser is not null && _articleBll.IsSignalByUser(id, _sessionHelpers.CurentUser.Id))
                 _articleBll.UnSignalArticle(id, _sessionHelpers.CurentUser.Id);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("GetArticleById", new { id = id });
         }
 
 

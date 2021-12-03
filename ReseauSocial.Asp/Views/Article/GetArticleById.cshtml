@@ -1,5 +1,6 @@
 ﻿@model ReseauSocial.Asp.Models.ArticleAsp
 @inject ReseauSocial.Asp.Sessions.ISessionHelpers sessionManager
+@inject BLL.Interfaces.IArticleBll articleService
 @{
     ViewData["Title"] = "GetArticleById";
 }
@@ -10,7 +11,7 @@
 
     <hr />
     <dl class="row">
-       
+
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Title)
         </dt>
@@ -23,69 +24,91 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Content)
         </dd>
+        @* <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.CommentOk)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CommentOk)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.OnLigne)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.OnLigne)
+            </dd>*@
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CommentOk)
+            @Html.DisplayNameFor(model => model.Date)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CommentOk)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OnLigne)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OnLigne)
+            @Html.DisplayFor(model => model.Date)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.UserId)
         </dt>
         <dd class="col-sm-10">
-            @Model.UserArticle.LastName @Model.UserArticle.FirstName
+            @Model.UserArticle.LastName
+            @Model.UserArticle.FirstName
         </dd>
     </dl>
 </div>
 
-<div>
-    <a asp-controller="Article" asp-action="Update" asp-route-id="@Model.Id " class="btn btn-success">Modifier</a>
-</div>
+@if (sessionManager.CurentUser.Id == @Model.UserId)
+{
+    <div class="flex-row">
+        <a asp-controller="Article" asp-action="Update" asp-route-id="@Model.Id " class="btn btn-success m-2">Modifier</a>
+        <a asp-controller="Article" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger m-2">Effacer</a>
+    </div>
+}
+else
+{
+    @if (!articleService.IsSignalByUser(@Model.Id, sessionManager.CurentUser.Id))
+    {
+        <a asp-controller="Article" asp-action="SignalArticle" asp-route-id="@Model.Id" class="btn btn-danger">Signaler</a>
+    }
+    else
+    {
+        <a asp-controller="Article" asp-action="UnSignalArticle" asp-route-id="@Model.Id" class="btn btn-danger">Désignaler</a>
+    }
 
 
-<div>
-    <a asp-action="Index">Retour</a>
-</div>
+}
 
-<hr />
+
 <hr />
 <div>
     <h2>Commentaires</h2>
     <div class="container">
-        
-            <div class="m-2">
-                <form>
-                    <div class="form-group">
-                        <label for="comment">Votre commentaire</label>
-                        <input id="comment" name="comment" type="text" class="form-control" placeholder="Entrez ici votre commentaire" />
-                    </div>
-                    <button id="submitButton" type="submit" class="btn btn-primary">Envoyer</button>
-                </form>
-            </div>
-            <div class="m-2">
-                <h3>Liste des commentaires</h3>
-                <ul id="listMessages" class="list-group">
-                    @*
-                                        @foreach (var comment in Model.Comments)
-                        {
-                        <li class="list-item">            <a asp-controller="User" asp-action="GetById" asp-route-id="@comment.CreatorId">                @(comment.Creator.LastName + " " + comment.Creator.FirstName)
-                            </a> a dit : @comment.Content le  @comment.CreatedDate.ToString()
-                        </li>                        <partial name="_CommentInListItemPartial" model="@comment" />                        }
-                    *@
-                </ul>
-            </div>
-     </div>
+
+        <div class="m-2">
+            <form>
+                <div class="form-group">
+                    <label for="comment">Votre commentaire</label>
+                    <input id="comment" name="comment" type="text" class="form-control" placeholder="Entrez ici votre commentaire" />
+                </div>
+                <button id="submitButton" type="submit" class="btn btn-primary">Envoyer</button>
+            </form>
+        </div>
+        <div class="m-2">
+            <h3>Liste des commentaires</h3>
+            <ul id="listMessages" class="list-group">
+                @*
+                                    @foreach (var comment in Model.Comments)
+                    {
+                    <li class="list-item">            <a asp-controller="User" asp-action="GetById" asp-route-id="@comment.CreatorId">                @(comment.Creator.LastName + " " + comment.Creator.FirstName)
+                        </a> a dit : @comment.Content le  @comment.CreatedDate.ToString()
+                    </li>                        <partial name="_CommentInListItemPartial" model="@comment" />                        }
+                *@
+            </ul>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="flex-column">
+    <a asp-controller="Article" asp-action="GetMyArticle" class="btn btn-primary m-2">Retour vers mes articles</a>
+
+    <a asp-controller="Article" asp-action="Index" class="btn btn-primary m-2">Retour vers tout les articles</a>
 </div>
 
-<div>
-    <a asp-controller="Article" asp-action="GetMyArticle">Retour aux articles</a>
-</div>
 <script>
     var curentUserId = parseInt(@sessionManager.CurentUser.Id.ToString());
     var articleId = parseInt(@Model.Id.ToString());

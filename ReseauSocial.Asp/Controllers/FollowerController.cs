@@ -38,7 +38,7 @@ namespace ReseauSocial.Asp.Controllers
                 _followerBll.Follow(followerId, id);
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "User");
         }
 
         [HttpGet("UnFollow/{id}")]
@@ -51,7 +51,7 @@ namespace ReseauSocial.Asp.Controllers
                 _followerBll.UnFollow(followerId, id);
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "User");
         }
 
         [HttpGet("GetAllFollowersOfOneUser")]

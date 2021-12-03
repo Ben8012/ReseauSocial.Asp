@@ -4,46 +4,49 @@
 
 @{
     ViewData["Title"] = "GetArticleByUserId";
-    UserAsp user = ViewBag.User as UserAsp;  
+    UserAsp user = ViewBag.User as UserAsp;
 }
 
 <h1>Article de @user.LastName @user.FirstName</h1>
+@if (sessionManager.CurentUser.Id == @Model.Select(u => u.UserId).FirstOrDefault())
+{
+    <p>
+        <a asp-action="Insert" asp-controller="Article" class="btn btn-success">Créer un nouvel article</a>
+    </p>
+}
 
-<p>
-    <a asp-action="Insert" asp-controller="Article">Creer un nouvel article</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Content)
-            </th>
-
-
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+    <table class="table">
+        <thead>
             <tr>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Content)
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Content)
+                </th>
 
-                <td>
-                    <a asp-controller="Article" asp-action="GetArticleById" asp-route-id="@item.Id" class="btn btn-success">Details</a>
-                    <a asp-controller="Article" asp-action="SignalArticle" asp-route-id="@item.Id" class="btn btn-danger">Signaler</a>
-                </td>
+
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Content)
+                    </td>
+
+                    <td>
+                        <a asp-controller="Article" asp-action="GetArticleById" asp-route-id="@item.Id" class="btn btn-success">Voir</a>
+                        @*   <a asp-controller="Article" asp-action="SignalArticle" asp-route-id="@item.Id" class="btn btn-danger">Signaler</a>*@
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

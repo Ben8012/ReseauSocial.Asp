@@ -39,7 +39,7 @@ namespace ReseauSocial.Asp.Controllers
                 _blacklistBll.Blacklist(blacklisterId, id);
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "User");
         }
 
 
@@ -53,7 +53,7 @@ namespace ReseauSocial.Asp.Controllers
                 _blacklistBll.UnBlacklist(blacklisterId, id);
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "User");
         }
 
         [HttpGet("GetAllBlacklistedOfOneUser")]

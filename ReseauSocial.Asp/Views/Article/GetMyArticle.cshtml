@@ -10,8 +10,9 @@
 <h1>Mes Articles</h1>
 
 <p>
-    <a asp-action="Insert" asp-controller="Article">Creer un nouvel article</a>
+    <a asp-action="Insert" asp-controller="Article" class="btn btn-success">Creer un nouvel article</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -28,9 +29,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.OnLigne)
             </th>
-          @*  <th>
-                @Html.DisplayNameFor(model => model.UserId)
-            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -51,12 +52,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.OnLigne)
             </td>
-           @* <td>
-                @item.UserArticle.FirstName  @item.UserArticle.LastName
-            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
             <td>
                 <a asp-controller="Article" asp-action="GetArticleById" asp-route-id="@item.Id" class="btn btn-success">Details</a>
-                <a asp-controller="Article" asp-action="Update" asp-route-id="@item.Id" class="btn btn-primary">Modifier</a>
+                <a asp-controller="Article" asp-action="Update" asp-route-id="@item.Id" class="btn btn-success">Modifier</a>
                 <a asp-controller="Article" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Effacer</a>
                    
             </td>

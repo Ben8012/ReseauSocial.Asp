@@ -66,7 +66,11 @@ namespace ReseauSocial.Asp.HubTools
             });
 
             await Clients.Caller.SendAsync("MessageBetweenToUsers", JsonConvert.SerializeObject(listMessages), userId1, userId2);
-            await GetListContact(userId1);
+            if (userId1 < 0)
+            {
+                await GetListContact(userId1);
+            }
+         
         }
 
 

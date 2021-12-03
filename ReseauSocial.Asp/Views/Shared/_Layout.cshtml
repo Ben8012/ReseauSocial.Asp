@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
-<body>
+<body class="bg-light">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #e3f2fd; z-index:9999">
             <div class="container">
@@ -46,17 +46,17 @@
                                         <a class="btn btn-outline-primary" asp-area="" asp-controller="User" asp-action="MyConctacts">Mes échanges</a>
                                         <a class="btn btn-outline-primary" asp-area="" asp-controller="Follower" asp-action="GetAllFollowedOfOneUser">Mes suivis</a>
                                         <a class="btn btn-outline-primary" asp-area="" asp-controller="Follower" asp-action="GetAllFollowersOfOneUser">Mes followers</a>
-                                        <a class="btn btn-outline-primary" asp-area="" asp-controller="Blacklist" asp-action="GetAllBlacklistedOfOneUser">Ma  blacklist</a>
+                                        <a class="btn btn-outline-primary" asp-area="" asp-controller="Blacklist" asp-action="GetAllBlacklistedOfOneUser">Ma blacklist</a>
                                     </div>
                                 </div>
                             </li>
 
                             <li class="mx-1 nav-item">
                                 <div class="dropdown">
-                                    <a class="btn btn-outline-primary dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Articles</a>
+                                    <a class="btn btn-outline-success dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Articles</a>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="btn btn-outline-primary" asp-area="" asp-controller="Article" asp-action="Index"> Tous les articles</a>
-                                        <a class="btn btn-outline-primary" asp-area="" asp-controller="Article" asp-action="GetMyArticle"> Mes articles</a>
+                                        <a class="btn btn-outline-success" asp-area="" asp-controller="Article" asp-action="Index"> Tous les articles</a>
+                                        <a class="btn btn-outline-success" asp-area="" asp-controller="Article" asp-action="GetMyArticle"> Mes articles</a>
                                     </div>
                                 </div>
                             </li>
@@ -71,7 +71,7 @@
                             </li>
 
                             <li class="mx-1 nav-item">
-                                <a class="btn btn-outline-primary" asp-area="" asp-controller="User" asp-action="ProfilUser">Mon profile</a>
+                                <a class="btn btn-outline-primary" asp-area="" asp-controller="User" asp-action="ProfilUser">Mon profil</a>
                             </li>
                             <li class="mx-1 nav-item">
                                 <a class="btn btn-outline-primary" asp-area="" asp-controller="User" asp-action="Logout">Se déconnecter</a>
@@ -84,8 +84,8 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="container bg-light">
+        <main role="main" class="m-3">
             @RenderBody()
         </main>
     </div>
